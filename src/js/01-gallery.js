@@ -1,11 +1,7 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-// Add imports above this line
-
 import { galleryItems } from './gallery-items.js';
-// Change code below this line
-
 const gallery = document.querySelector('.gallery');
 
 const createGallery = galleryItems
@@ -35,18 +31,15 @@ function selectItem(event) {
     return;
   }
 
-  const instance = basicLightbox.create(
-    `<img src="${event.target.dataset.source}">`,
-    {
-      onShow: instance => {
-        document.addEventListener('keydown', onEscKeyPress);
-      },
-      onClose: instance => {
-        document.removeEventListener('keydown', onEscKeyPress);
-      },
-    }
-  );
-  instance.show();
+  const instance = new SimpleLightbox('.gallery a', {
+    onShow: () => {
+      document.addEventListener('keydown', onEscKeyPress);
+    },
+    onClose: () => {
+      document.removeEventListener('keydown', onEscKeyPress);
+    },
+  });
+  instance.open();
 
   function onEscKeyPress(event) {
     if (event.code === 'Escape') {
