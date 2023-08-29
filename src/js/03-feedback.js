@@ -54,3 +54,5 @@ const parsedSettings = JSON.parse(savedSettings);
 
 email.value = parsedSettings.email;
 message.value = parsedSettings.message;
+
+//update
