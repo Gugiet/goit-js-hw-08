@@ -29,4 +29,4 @@ player
   });
 
 //kod zadziałał w przeglądarce MS Edge a w Google Chrome nie działa.
-//update
+//update to check if github works properly
