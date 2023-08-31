@@ -32,14 +32,14 @@ function selectItem(event) {
   }
 
   const instance = new SimpleLightbox('.gallery a', {
-    onShow: () => {
+    onShow: instance => {
       document.addEventListener('keydown', onEscKeyPress);
     },
-    onClose: () => {
+    onClose: instance => {
       document.removeEventListener('keydown', onEscKeyPress);
     },
   });
-  instance.open();
+  instance.show();
 
   function onEscKeyPress(event) {
     if (event.code === 'Escape') {

@@ -9,26 +9,14 @@ let feedbackForm = {
 };
 
 email.addEventListener('input', event => {
-  const email = event.target.value;
-
-  const savedSettings = localStorage.getItem('feedback-form-state');
-  const parsedSettings = JSON.parse(savedSettings);
-
-  const settings = parsedSettings ? parsedSettings : feedbackForm;
-
-  feedbackForm = { ...settings, email: email };
+  const newEmail = event.target.value;
+  feedbackForm.email = newEmail;
   throttledSaveStateToLocalStorage();
 });
 
 message.addEventListener('input', event => {
-  const message = event.target.value;
-
-  const savedSettings = localStorage.getItem('feedback-form-state');
-  const parsedSettings = JSON.parse(savedSettings);
-
-  const settings = parsedSettings ? parsedSettings : feedbackForm;
-
-  feedbackForm = { ...settings, message: message };
+  const newMessage = event.target.value;
+  feedbackForm.message = newMessage;
   throttledSaveStateToLocalStorage();
 });
 
@@ -38,21 +26,29 @@ function saveStateToLocalStorage() {
 
 const throttledSaveStateToLocalStorage = throttle(saveStateToLocalStorage, 500);
 
-submitBtn.addEventListener('click', event => {
-  event.preventDefault();
-
+window.addEventListener('load', () => {
   const savedSettings = localStorage.getItem('feedback-form-state');
   const parsedSettings = JSON.parse(savedSettings);
 
-  console.log(parsedSettings);
-  email.value = '';
-  message.value = '';
+  if (parsedSettings) {
+    feedbackForm = parsedSettings;
+    email.value = feedbackForm.email;
+    message.value = feedbackForm.message;
+  }
 });
 
-const savedSettings = localStorage.getItem('feedback-form-state');
-const parsedSettings = JSON.parse(savedSettings);
+submitBtn.addEventListener('click', event => {
+  event.preventDefault();
 
-email.value = parsedSettings.email;
-message.value = parsedSettings.message;
+  email.value = '';
+  message.value = '';
+  localStorage.removeItem('feedback-form-state');
+
+  console.log('Form submitted with the following data:');
+  console.log(feedbackForm);
+
+  feedbackForm.email = '';
+  feedbackForm.message = '';
+});
 
 //update to check if github works properly
